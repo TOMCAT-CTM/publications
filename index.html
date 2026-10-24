@@ -1,0 +1,76 @@
+---
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ site.author }} | {{ site.title }}</title>
+  <meta name="description" content="Publications of {{ site.author }}, {{ site.affiliation }}">
+  <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
+</head>
+<body>
+<main>
+  <header>
+    <h1>{% if site.profile_url %}<a href="{{ site.profile_url }}">{{ site.author }}</a>{% else %}{{ site.author }}{% endif %}</h1>
+    <p class="sub">{{ site.affiliation }}</p>
+  </header>
+
+  {% assign pubs = site.data.publications %}
+  {% assign by_year = pubs | group_by: "year" | sort: "name" | reverse %}
+
+  <div class="bar">
+    <h2>{{ site.title }} <span class="count">{{ pubs | size }}</span></h2>
+    <input id="q" type="search" placeholder="Search title, author, journal…" aria-label="Search publications">
+  </div>
+  <p id="none" hidden>No publications match your search.</p>
+
+  {% for group in by_year %}
+  <section class="year-block">
+    <h3 class="year">{{ group.name }}</h3>
+    <ol class="pubs">
+    {% for p in group.items %}
+      {% assign authors = p.authors | escape %}
+      {% for n in site.highlight_names %}
+        {% capture bold %}<strong>{{ n }}</strong>{% endcapture %}
+        {% assign authors = authors | replace: n, bold %}
+      {% endfor %}
+      {% assign t_end = p.title | slice: -1 %}
+      {% assign v_end = p.venue | slice: -1 %}
+      <li>
+        <span class="authors">{{ authors }}</span> ({{ p.year }}).
+        <span class="title">{{ p.title }}{% unless t_end == "?" or t_end == "." or t_end == "!" %}.{% endunless %}</span>
+        {% if p.venue %}<em>{{ p.venue | escape }}</em>{% if p.details %}, {{ p.details | escape }}.{% else %}{% unless v_end == "." %}.{% endunless %}{% endif %}{% endif %}
+        {% if p.doi or p.pdf or p.url %}<span class="links">
+          {% if p.doi %}<a href="https://doi.org/{{ p.doi }}">DOI</a>{% endif %}
+          {% if p.pdf %}<a href="{% if p.pdf contains '://' %}{{ p.pdf }}{% else %}{{ p.pdf | relative_url }}{% endif %}">PDF</a>{% endif %}
+          {% if p.url %}<a href="{{ p.url }}">Link</a>{% endif %}
+        </span>{% endif %}
+      </li>
+    {% endfor %}
+    </ol>
+  </section>
+  {% endfor %}
+
+  <footer>Last updated {{ site.time | date: "%-d %B %Y" }}</footer>
+</main>
+<script>
+  (function () {
+    var q = document.getElementById('q'), none = document.getElementById('none');
+    var blocks = document.querySelectorAll('.year-block');
+    q.addEventListener('input', function () {
+      var term = q.value.trim().toLowerCase(), shown = 0;
+      blocks.forEach(function (b) {
+        var any = false;
+        b.querySelectorAll('li').forEach(function (li) {
+          var hit = !term || li.textContent.toLowerCase().indexOf(term) !== -1;
+          li.hidden = !hit; if (hit) { any = true; shown++; }
+        });
+        b.hidden = !any;
+      });
+      none.hidden = shown > 0;
+    });
+  })();
+</script>
+</body>
+</html>
