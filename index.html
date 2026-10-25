@@ -37,11 +37,11 @@
         {% assign authors = authors | replace: n, bold %}
       {% endfor %}
       {% assign t_end = p.title | slice: -1 %}
-      {% assign v_end = p.venue | slice: -1 %}
+      {% assign v_end = p.journal | slice: -1 %}
       <li>
         <span class="authors">{{ authors }}</span> ({{ p.year }}).
         <span class="title">{{ p.title }}{% unless t_end == "?" or t_end == "." or t_end == "!" %}.{% endunless %}</span>
-        {% if p.venue %}<em>{{ p.venue | escape }}</em>{% if p.details %}, {{ p.details | escape }}.{% else %}{% unless v_end == "." %}.{% endunless %}{% endif %}{% endif %}
+        {% if p.journal %}<em>{{ p.journal | escape }}</em>{% if p.details %}, {{ p.details | escape }}.{% else %}{% unless v_end == "." %}.{% endunless %}{% endif %}{% endif %}
         {% if p.doi or p.pdf or p.url %}<span class="links">
           {% if p.doi %}<a href="https://doi.org/{{ p.doi }}">DOI</a>{% endif %}
           {% if p.pdf %}<a href="{% if p.pdf contains '://' %}{{ p.pdf }}{% else %}{{ p.pdf | relative_url }}{% endif %}">PDF</a>{% endif %}
