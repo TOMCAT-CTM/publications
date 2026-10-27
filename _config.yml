@@ -1,22 +1,11 @@
 # ---------------------------------------------------------------
 # Site settings. Edit the text in quotes; the page updates itself.
 # ---------------------------------------------------------------
-title: "Publications"
-author: "Steve R. Arnold"
-affiliation: "School of Earth, Environment and Sustainability, University of Leeds"
-profile_url: "https://environment.leeds.ac.uk/see/staff/1135/dr-steve-arnold"
+title: "TOMCAT Publications"
+description: "Publications using the TOMCAT chemical transport model (source: Scopus)"
 
-# Every way your name appears in author lists. Each is shown in bold.
-# Keep the LONGER versions ABOVE the shorter ones.
-highlight_names:
-  - "Arnold, S. R."
-  - "Arnold, S.R."
-  - "Arnold S.R."
-  - "S. R. Arnold"
-  - "S.R. Arnold"
-  - "S.R Arnold"
-  - "Arnold, S."
-  - "S. Arnold"
+# Lets Jekyll read the Scopus CSV export as-is (it starts with a byte-order mark).
+encoding: "bom|utf-8"
 
 # Not shown on the page
 exclude:

@@ -5,23 +5,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ site.author }} | {{ site.title }}</title>
-  <meta name="description" content="Publications of {{ site.author }}, {{ site.affiliation }}">
+  <title>{{ site.title }}</title>
+  <meta name="description" content="{{ site.description }}">
   <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
 </head>
 <body>
 <main>
   <header>
-    <h1>{% if site.profile_url %}<a href="{{ site.profile_url }}">{{ site.author }}</a>{% else %}{{ site.author }}{% endif %}</h1>
-    <p class="sub">{{ site.affiliation }}</p>
+    <h1>{{ site.title }}</h1>
+    <p class="sub">{{ site.description }}</p>
     <p class="updated">Last updated {{ site.time | date: "%-d %B %Y" }}</p>
   </header>
 
-  {% assign pubs = site.data.publications %}
-  {% assign by_year = pubs | group_by: "year" | sort: "name" | reverse %}
+  {% assign pubs = site.data.publications | sort: "Authors" %}
+  {% assign by_year = pubs | group_by: "Year" | sort: "name" | reverse %}
 
   <div class="bar">
-    <h2>{{ site.title }} <span class="count">{{ pubs | size }}</span></h2>
+    <h2>Publications <span class="count">{{ pubs | size }}</span></h2>
     <input id="q" type="search" placeholder="Search title, author, journal…" aria-label="Search publications">
   </div>
   <p id="none" hidden>No publications match your search.</p>
@@ -31,22 +31,13 @@
     <h3 class="year">{{ group.name }}</h3>
     <ol class="pubs">
     {% for p in group.items %}
-      {% assign authors = p.authors | escape %}
-      {% for n in site.highlight_names %}
-        {% capture bold %}<strong>{{ n }}</strong>{% endcapture %}
-        {% assign authors = authors | replace: n, bold %}
-      {% endfor %}
-      {% assign t_end = p.title | slice: -1 %}
-      {% assign v_end = p.journal | slice: -1 %}
+      {% assign t_end = p.Title | slice: -1 %}
+      {% capture details %}{% if p.Volume.size > 0 %}, {{ p.Volume }}{% endif %}{% if p.Issue.size > 0 %} ({{ p.Issue }}){% endif %}{% if p["Page start"].size > 0 %}, {{ p["Page start"] }}{% if p["Page end"].size > 0 %}–{{ p["Page end"] }}{% endif %}{% elsif p["Art. No."].size > 0 %}, {{ p["Art. No."] }}{% endif %}{% endcapture %}
       <li>
-        <span class="authors">{{ authors }}</span> ({{ p.year }}).
-        <span class="title">{{ p.title }}{% unless t_end == "?" or t_end == "." or t_end == "!" %}.{% endunless %}</span>
-        {% if p.journal %}<em>{{ p.journal | escape }}</em>{% if p.details %}, {{ p.details | escape }}.{% else %}{% unless v_end == "." %}.{% endunless %}{% endif %}{% endif %}
-        {% if p.doi or p.pdf or p.url %}<span class="links">
-          {% if p.doi %}<a href="https://doi.org/{{ p.doi }}">DOI</a>{% endif %}
-          {% if p.pdf %}<a href="{% if p.pdf contains '://' %}{{ p.pdf }}{% else %}{{ p.pdf | relative_url }}{% endif %}">PDF</a>{% endif %}
-          {% if p.url %}<a href="{{ p.url }}">Link</a>{% endif %}
-        </span>{% endif %}
+        <span class="authors">{{ p.Authors | replace: ";", "," | escape }}</span> ({{ p.Year }}).
+        <span class="title">{{ p.Title }}{% unless t_end == "?" or t_end == "." or t_end == "!" %}.{% endunless %}</span>
+        {% if p["Source title"].size > 0 %}<em>{{ p["Source title"] | escape }}</em>{{ details | escape }}.{% endif %}
+        <span class="links">{% if p.DOI.size > 0 %}<a href="https://doi.org/{{ p.DOI }}">DOI</a>{% else %}<a href="{{ p.Link }}">Scopus</a>{% endif %}</span>
       </li>
     {% endfor %}
     </ol>
