@@ -35,7 +35,8 @@
       {% capture details %}{% if p.Volume.size > 0 %}, {{ p.Volume }}{% endif %}{% if p.Issue.size > 0 %} ({{ p.Issue }}){% endif %}{% if p["Page start"].size > 0 %}, {{ p["Page start"] }}{% if p["Page end"].size > 0 %}–{{ p["Page end"] }}{% endif %}{% elsif p["Art. No."].size > 0 %}, {{ p["Art. No."] }}{% endif %}{% endcapture %}
       <li>
         {% assign names = p.Authors | split: "; " %}
-        <span class="authors">{% for a in names %}{% if site.highlight_names contains a %}<strong>{{ a | escape }}</strong>{% else %}{{ a | escape }}{% endif %}{% unless forloop.last %}, {% endunless %}{% endfor %}</span> ({{ p.Year }}).
+        {% assign ids = p["Author(s) ID"] | split: "; " %}
+        <span class="authors">{% for a in names %}{% assign id = ids[forloop.index0] %}{% if site.highlight_ids contains id %}<strong>{{ a | escape }}</strong>{% else %}{{ a | escape }}{% endif %}{% unless forloop.last %}, {% endunless %}{% endfor %}</span> ({{ p.Year }}).
         <span class="title">{{ p.Title }}{% unless t_end == "?" or t_end == "." or t_end == "!" %}.{% endunless %}</span>
         {% if p["Source title"].size > 0 %}<em>{{ p["Source title"] | escape }}</em>{{ details | escape }}.{% endif %}
         <span class="links">{% if p.DOI.size > 0 %}<a href="https://doi.org/{{ p.DOI }}">DOI</a>{% else %}<a href="{{ p.Link }}">Scopus</a>{% endif %}</span>

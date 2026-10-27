@@ -28,8 +28,14 @@ CSV if you spot one.
 If the page doesn't update, open the **Actions** tab. A red cross means the
 build failed; click it to see why.
 
-## Change the title, description or the bold name variants
+## Change the title or description
 Edit `_config.yml`.
+
+## Make someone's name bold
+Find one of their papers in `_data/publications.csv`. The "Author(s) ID"
+column lists Scopus author IDs in the same order as the "Authors" column.
+Add their ID to `highlight_ids` in `_config.yml`. Scopus sometimes gives one
+person two IDs, so check their other papers too.
 
 ## Change the look
 Edit `assets/style.css`.
