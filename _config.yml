@@ -4,6 +4,14 @@
 title: "TOMCAT Publications"
 description: "Publications using the TOMCAT chemical transport model (source: Scopus)"
 
+# Every way the name appears in the CSV "Authors" column. Each is shown in bold.
+# Must match an author exactly as Scopus writes it (e.g. "Chipperfield M.P.").
+highlight_names:
+  - "Chipperfield M.P."
+  - "Chipperfield M."
+  - "Chipperfleld M.P."   # Scopus typo
+  - "P Chipperfield M."   # Scopus typo
+
 # Lets Jekyll read the Scopus CSV export as-is (it starts with a byte-order mark).
 encoding: "bom|utf-8"
 

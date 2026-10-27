@@ -28,7 +28,7 @@ CSV if you spot one.
 If the page doesn't update, open the **Actions** tab. A red cross means the
 build failed; click it to see why.
 
-## Change the title or description
+## Change the title, description or the bold name variants
 Edit `_config.yml`.
 
 ## Change the look

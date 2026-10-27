@@ -22,6 +22,7 @@ h2 { margin:0; font-size: 1.4rem; }
 .pubs { margin:0; padding-left: 0; list-style: none; }
 .pubs li { margin: 0; padding: 12px 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
 .authors { color: var(--muted); }
+.authors strong { color: var(--fg); }
 .title { font-weight: 600; }
 .links { white-space: nowrap; }
 .links a { font: 12px/1 system-ui, sans-serif; margin-left: 4px; padding: 3px 7px; display:inline-block;
