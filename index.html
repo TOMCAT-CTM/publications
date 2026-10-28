@@ -18,25 +18,25 @@
   </header>
 
   {% assign pubs = site.data.publications | sort: "Authors" %}
+  {% for e in site.hide_eids %}{% assign pubs = pubs | where_exp: "p", "p.EID != e" %}{% endfor %}
   {% assign by_year = pubs | group_by: "Year" | sort: "name" | reverse %}
 
   <div class="bar">
     <h2>Publications <span class="count">{{ pubs | size }}</span></h2>
     <input id="q" type="search" placeholder="Search title, author, journal…" aria-label="Search publications">
   </div>
+  <nav class="years" aria-label="Jump to year">{% for group in by_year %}<a href="#y{{ group.name }}">{{ group.name }}</a>{% endfor %}</nav>
   <p id="none" hidden>No publications match your search.</p>
 
   {% for group in by_year %}
   <section class="year-block">
-    <h3 class="year">{{ group.name }}</h3>
+    <h3 class="year" id="y{{ group.name }}">{{ group.name }}</h3>
     <ol class="pubs">
     {% for p in group.items %}
       {% assign t_end = p.Title | slice: -1 %}
       {% capture details %}{% if p.Volume.size > 0 %}, {{ p.Volume }}{% endif %}{% if p.Issue.size > 0 %} ({{ p.Issue }}){% endif %}{% if p["Page start"].size > 0 %}, {{ p["Page start"] }}{% if p["Page end"].size > 0 %}–{{ p["Page end"] }}{% endif %}{% elsif p["Art. No."].size > 0 %}, {{ p["Art. No."] }}{% endif %}{% endcapture %}
       <li>
-        {% assign names = p.Authors | split: "; " %}
-        {% assign ids = p["Author(s) ID"] | split: "; " %}
-        <span class="authors">{% for a in names %}{% assign id = ids[forloop.index0] %}{% if site.highlight_ids contains id %}<strong>{{ a | escape }}</strong>{% else %}{{ a | escape }}{% endif %}{% unless forloop.last %}, {% endunless %}{% endfor %}</span> ({{ p.Year }}).<br>
+        <span class="authors">{{ p.Authors | replace: ";", "," | escape }}</span> ({{ p.Year }}).<br>
         <span class="title">{{ p.Title }}{% unless t_end == "?" or t_end == "." or t_end == "!" %}.{% endunless %}</span><br>
         {% if p["Source title"].size > 0 %}<em>{{ p["Source title"] | escape }}</em>{{ details | escape }}.{% endif %}
         <span class="links">{% if p.DOI.size > 0 %}<a href="https://doi.org/{{ p.DOI }}">DOI</a>{% else %}<a href="{{ p.Link }}">Scopus</a>{% endif %}</span>
@@ -60,6 +60,7 @@
           li.hidden = !hit; if (hit) { any = true; shown++; }
         });
         b.hidden = !any;
+        document.querySelector('.years a[href="#' + b.querySelector('h3').id + '"]').hidden = !any;
       });
       none.hidden = shown > 0;
     });

@@ -1,41 +1,39 @@
 # TOMCAT publications page
 
-This site is published free by GitHub Pages. The web page is built
-automatically from one file, `_data/publications.csv`, which is a Scopus
-CSV export used as-is, so you never need to edit any HTML.
+Live at https://zwang-leeds.github.io/publications/
 
-## Turn on the website (once)
-1. On GitHub, open **Settings → Pages**.
-2. Under **Build and deployment**, set **Source** to *Deploy from a branch*,
-   pick the `main` branch and the `/ (root)` folder, then **Save**.
-3. After a minute or two the site is live at
-   `https://<your-username>.github.io/publications/`.
+The page is built automatically by GitHub Pages from one file,
+`_data/publications.csv`, which is a Scopus CSV export used exactly as
+Scopus produces it. You never need to edit HTML or YAML to add papers.
 
-## Update the list
-1. In Scopus, select the papers and choose **Export → CSV**. Include at
-   least: Authors, Title, Year, Source title, Volume, Issue, Art. No.,
-   Page start, Page end, DOI and Link.
-2. On GitHub, open the `_data` folder, choose **Add file → Upload files**
-   and upload the export renamed to `publications.csv` (it replaces the
-   old one).
-3. Click **Commit changes**. The live page updates within a minute or two.
-   It sorts by year, then first author, and updates the "Last updated"
-   date by itself.
+## Update the list (about 2 minutes, all in a web browser)
+1. **Scopus:** run the TOMCAT search (save it once in Scopus so it is one
+   click next time), select all results, choose **Export → CSV**, and tick
+   **Citation information** (the default set). Download the file.
+2. **Rename** the downloaded file to `publications.csv`.
+3. **GitHub:** open the repository, click into the `_data` folder, then
+   **Add file → Upload files**, drop in `publications.csv` and click
+   **Commit changes**. It replaces the old file.
+4. Wait a minute or two and reload the site. The paper count, year links and
+   "Last updated" date change by themselves.
 
-Scopus sometimes lists the same paper twice; delete the extra row from the
-CSV if you spot one.
+The CSV in the repository is the same file you use in Scopus for metrics and
+plots, so the website and your Scopus numbers stay in step.
 
 If the page doesn't update, open the **Actions** tab. A red cross means the
-build failed; click it to see why.
+build failed; click it to see why. The usual cause is a file that is not a
+Scopus CSV export, or one re-saved by Excel (if you must open it in Excel,
+save it as "CSV UTF-8").
+
+## Hide a duplicate or junk record
+Scopus sometimes lists the same paper twice. Find the extra row in
+`_data/publications.csv` and copy its EID (the last column, like
+`2-s2.0-85054834664`). Add it to `hide_eids` in `_config.yml` (pencil icon →
+edit → **Commit changes**). Hidden records stay hidden in every future
+export, so you only do this once per record.
 
 ## Change the title or description
 Edit `_config.yml`.
-
-## Make someone's name bold
-Find one of their papers in `_data/publications.csv`. The "Author(s) ID"
-column lists Scopus author IDs in the same order as the "Authors" column.
-Add their ID to `highlight_ids` in `_config.yml`. Scopus sometimes gives one
-person two IDs, so check their other papers too.
 
 ## Change the look
 Edit `assets/style.css`.

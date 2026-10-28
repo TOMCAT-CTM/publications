@@ -18,11 +18,13 @@ h2 { margin:0; font-size: 1.4rem; }
   padding: 4px 8px; border-radius: 10px; vertical-align: middle; }
 #q { font: 15px system-ui, sans-serif; padding: 8px 12px; width: min(100%, 300px);
   border: 1px solid var(--line); border-radius: 6px; background: var(--field); color: var(--fg); }
+.years { display:flex; flex-wrap:wrap; gap:4px 12px; margin: 10px 0 0; font: 14px system-ui, sans-serif; }
+.years a { text-decoration: none; }
+.years a:hover { text-decoration: underline; }
 .year { margin: 28px 0 8px; color: var(--accent); font-size: 1.15rem; }
 .pubs { margin:0; padding-left: 0; list-style: none; }
 .pubs li { margin: 0; padding: 12px 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
 .authors { color: var(--muted); }
-.authors strong { color: var(--fg); }
 .title { font-weight: 600; }
 .links { white-space: nowrap; }
 .links a { font: 12px/1 system-ui, sans-serif; margin-left: 4px; padding: 3px 7px; display:inline-block;

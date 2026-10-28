@@ -4,64 +4,21 @@
 title: "TOMCAT Publications"
 description: "Publications using the TOMCAT chemical transport model (source: Scopus)"
 
-# People shown in bold, by Scopus author ID (the "Author(s) ID" column of the
-# CSV, in the same order as the "Authors" column). IDs, not names, because
-# names like "Wang Z." or "Li Y." belong to several different people.
-# Chipperfield group, current members and alumni, from
-# https://tomcat.leeds.ac.uk/chipperfield/chipperfield_group/
-# Not in the CSV yet (add their ID once they appear): Matthew Alexander,
-# Natasha Aylett, Clelia Barboro, Ben Bradley, Yulu Chen, Linchang An,
-# Shane Daly, Michael Holloway, Lavinia Toso, Deqing Zhuoga.
-highlight_ids:
-  - "7004402705"    # Martyn Chipperfield
-  - "14055643200"   # Martyn Chipperfield (Scopus typo "Chipperfleld")
-  - "6504688501"    # Sandip Dhomse
-  - "57222232149"   # Emily Dowd
-  - "8383395800"    # Wuhu Feng
-  - "57205663434"   # Ailish Graham
-  - "56285898400"   # Richard Pope
-  - "59837904500"   # Zihao Wang
-  - "57200952551"   # Chris Wilson
-  - "58947009100"   # Saffron Heddell
-  - "58695154800"   # Yuwen Li
-  - "57954399100"   # Jamal Makkor
-  - "58944099300"   # Maria Paula Velasquez Garcia
-  - "57224225938"   # Wenjie Yin
-  - "57212656179"   # Shujie Chang
-  - "57211789484"   # Matilda Pimlott
-  - "57200305782"   # Antonio Bruno
-  - "57192711205"   # Xin Zhou
-  - "60596696000"   # Xin Zhou (second Scopus ID)
-  - "56871212500"   # Yang Li
-  - "58184358900"   # Mike Cartwright
-  - "36626950500"   # Luana Basso
-  - "57223012642"   # Peter Joyce
-  - "57191518556"   # Carlo Arosio
-  - "57189677554"   # Andreas Chrysanthou
-  - "57224929285"   # Chris Kelly
-  - "56304630300"   # Giorgio Taverna
-  - "55881889800"   # Yajuan Li
-  - "57201635889"   # Evgenia Galytska
-  - "56663261400"   # Tim Keslake
-  - "57160539000"   # Joe McNorton
-  - "23019544500"   # Nigel Richards
-  - "55922039700"   # Erin Dawkins
-  - "35364271200"   # Ryan Hossaini
-  - "36659468200"   # Sarah Monks
-  - "35519380200"   # Tom Breider
-  - "22934010300"   # Lara Gunn
-  - "6506344591"    # Beatriz Monge-Sanz
-  - "8942524900"    # Kirsty Pringle
-  - "21735369200"   # Wenshou Tian
-  - "24764483400"   # Adrian Hill
-  - "8942525300"    # Dominick Spracklen
-  - "57676144900"   # Jeff Evans
-  - "56757625500"   # Steve Arnold
-  - "60741108500"   # Steve Arnold (second Scopus ID)
-  - "6601983684"    # Cate Bridgeman
-  - "9939086300"    # Miriam Sinnhuber
-  - "6603547594"    # Bjoern-Martin Sinnhuber
-  - "8260435300"    # Stewart Davies
+# Scopus records to hide (duplicates and non-papers), by the EID column of the
+# CSV. These stay hidden when you upload a fresh export.
+hide_eids:
+  - "2-s2.0-36448992302"   # duplicate: Morgenstern 2002, Diagnosis of mixing between middle latitudes...
+  - "2-s2.0-0346639279"    # duplicate: Morgenstern 2003, Cumulative mixing inferred from stratospheric...
+  - "2-s2.0-0346008085"    # duplicate: Millard 2003, A model study of the connection between polar...
+  - "2-s2.0-1642397904"    # duplicate: Mann 2002, Polar vortex concentricity... (wrong DOI)
+  - "2-s2.0-0242615803"    # duplicate: Kleinböhl 2003, Vortexwide denitrification of the Arctic...
+  - "2-s2.0-0347269114"    # duplicate: Davies 2003, Modeling the effect of denitrification...
+  - "2-s2.0-85054834664"   # duplicate: Griffin 2018, discussion paper of the 2019 ACP paper
+  - "2-s2.0-0033589129"    # duplicate: Giannakopoulos 1999, Validation... (broken DOI)
+  - "2-s2.0-0033296063"    # duplicate: Galle 1999, Ground based FTIR measurements...
+  - "2-s2.0-0033789609"    # duplicate: Ricaud 2000, Temporal evolution of chlorine monoxide...
+  - "2-s2.0-36448939064"   # duplicate: Stowasser 2002, A characterization of the warm 1999... (broken DOI)
+  - "2-s2.0-84976333346"   # not a paper: EPJ Web of Conferences proceedings volume
 
 # Lets Jekyll read the Scopus CSV export as-is (it starts with a byte-order mark).
 encoding: "bom|utf-8"
