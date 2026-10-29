@@ -4,11 +4,10 @@ Live at https://tomcat-ctm.github.io/publications/
 
 The page is built automatically by GitHub Pages from one file,
 `_data/publications.csv`, which is a Scopus CSV export used exactly as
-Scopus produces it. You never need to edit HTML or YAML to add papers.
+Scopus produces it. There is no need to edit HTML or YAML to add papers.
 
 ## Update the list (about 2 minutes, all in a web browser)
-1. **Scopus:** run the TOMCAT search (save it once in Scopus so it is one
-   click next time), select all results, choose **Export → CSV**, and tick
+1. **Scopus:** run the paper search using your keywords (save it once in Scopus as a 'Saved List' so it can be updated next time), select all results, choose **Export → CSV**, and tick
    **Citation information** (the default set). Download the file.
 2. **Rename** the downloaded file to `publications.csv`.
 3. **GitHub:** open the repository, click into the `_data` folder, then
@@ -18,7 +17,7 @@ Scopus produces it. You never need to edit HTML or YAML to add papers.
    "Last updated" date change by themselves.
 
 The CSV in the repository is the same file you use in Scopus for metrics and
-plots, so the website and your Scopus numbers stay in step.
+plots, so the GitHub website and your Scopus numbers stay synchronised.
 
 If the page doesn't update, open the **Actions** tab. A red cross means the
 build failed; click it to see why. The usual cause is a file that is not a
