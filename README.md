@@ -1,6 +1,6 @@
 # TOMCAT publications page
 
-Live at https://zwang-leeds.github.io/publications/
+Live at https://tomcat-ctm.github.io/publications/
 
 The page is built automatically by GitHub Pages from one file,
 `_data/publications.csv`, which is a Scopus CSV export used exactly as
