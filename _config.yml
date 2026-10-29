@@ -2,7 +2,7 @@
 # Site settings. Edit the text in quotes; the page updates itself.
 # ---------------------------------------------------------------
 title: "TOMCAT Publications"
-description: "Publications using the TOMCAT chemical transport model (source: Scopus)"
+description: "Publications using the TOMCAT CTM, and related models (SLIMCAT, INVICAT inverse model, GLOMAP aerosol model, UMSLIMCAT chemistry-climate model). (Source: Scopus)"
 
 # Scopus records to hide (duplicates and non-papers), by the EID column of the
 # CSV. These stay hidden when you upload a fresh export.
