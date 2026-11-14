@@ -31,6 +31,12 @@ Scopus sometimes lists the same paper twice. Find the extra row in
 edit → **Commit changes**). Hidden records stay hidden in every future
 export, so you only do this once per record.
 
+## Update the chart
+The thumbnail above the search box is `assets/publications_timeseries.png`
+(e.g. a screenshot of Scopus "Citation overview"). To replace it, open the
+`assets` folder on GitHub, **Add file → Upload files**, and upload the new
+picture with exactly that name. Clicking the thumbnail opens the full image.
+
 ## Change the title or description
 Edit `_config.yml`.
 

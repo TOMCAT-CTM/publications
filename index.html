@@ -17,6 +17,9 @@
     <p class="updated">Last updated {{ site.time | date: "%-d %B %Y" }}</p>
   </header>
 
+  {% capture chart %}{{ '/assets/publications_timeseries.png' | relative_url }}?v={{ site.time | date: '%s' }}{% endcapture %}
+  <a class="chart" href="{{ chart }}" title="Click to view full size"><img src="{{ chart }}" alt="Scopus citation overview: documents and citations per year"></a>
+
   {% assign pubs = site.data.publications | sort: "Authors" %}
   {% for e in site.hide_eids %}{% assign pubs = pubs | where_exp: "p", "p.EID != e" %}{% endfor %}
   {% assign by_year = pubs | group_by: "Year" | sort: "name" | reverse %}
