@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------
 title: "TOMCAT Publications"
 description: "Publications using the TOMCAT CTM, and related models such as SLIMCAT, INVICAT inverse model, GLOMAP aerosol model (offline version), 
-and UMSLIMCAT chemistry-climate model. 
+and UMSLIMCAT chemistry-climate model. \n
 For additions or corrections please email Martyn Chipperfield. (Source of data: Scopus)"
 
 # Scopus records to hide (duplicates and non-papers), by the EID column of the
