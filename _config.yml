@@ -1,22 +1,28 @@
 # ---------------------------------------------------------------
 # Site settings. Edit the text in quotes; the page updates itself.
 # ---------------------------------------------------------------
-title: "Publications"
-author: "Steve R. Arnold"
-affiliation: "School of Earth, Environment and Sustainability, University of Leeds"
-profile_url: "https://environment.leeds.ac.uk/see/staff/1135/dr-steve-arnold"
+title: "TOMCAT Publications"
+description: "Publications using the TOMCAT CTM, and related models such as SLIMCAT, INVICAT inverse model, GLOMAP aerosol model (offline version), 
+and UMSLIMCAT chemistry-climate model. \n For additions or corrections please email Martyn Chipperfield. (Source of data: Scopus)"
 
-# Every way your name appears in author lists. Each is shown in bold.
-# Keep the LONGER versions ABOVE the shorter ones.
-highlight_names:
-  - "Arnold, S. R."
-  - "Arnold, S.R."
-  - "Arnold S.R."
-  - "S. R. Arnold"
-  - "S.R. Arnold"
-  - "S.R Arnold"
-  - "Arnold, S."
-  - "S. Arnold"
+# Scopus records to hide (duplicates and non-papers), by the EID column of the
+# CSV. These stay hidden when you upload a fresh export.
+hide_eids:
+  - "2-s2.0-36448992302"   # duplicate: Morgenstern 2002, Diagnosis of mixing between middle latitudes...
+  - "2-s2.0-0346639279"    # duplicate: Morgenstern 2003, Cumulative mixing inferred from stratospheric...
+  - "2-s2.0-0346008085"    # duplicate: Millard 2003, A model study of the connection between polar...
+  - "2-s2.0-1642397904"    # duplicate: Mann 2002, Polar vortex concentricity... (wrong DOI)
+  - "2-s2.0-0242615803"    # duplicate: Kleinböhl 2003, Vortexwide denitrification of the Arctic...
+  - "2-s2.0-0347269114"    # duplicate: Davies 2003, Modeling the effect of denitrification...
+  - "2-s2.0-85054834664"   # duplicate: Griffin 2018, discussion paper of the 2019 ACP paper
+  - "2-s2.0-0033589129"    # duplicate: Giannakopoulos 1999, Validation... (broken DOI)
+  - "2-s2.0-0033296063"    # duplicate: Galle 1999, Ground based FTIR measurements...
+  - "2-s2.0-0033789609"    # duplicate: Ricaud 2000, Temporal evolution of chlorine monoxide...
+  - "2-s2.0-36448939064"   # duplicate: Stowasser 2002, A characterization of the warm 1999... (broken DOI)
+  - "2-s2.0-84976333346"   # not a paper: EPJ Web of Conferences proceedings volume
+
+# Lets Jekyll read the Scopus CSV export as-is (it starts with a byte-order mark).
+encoding: "bom|utf-8"
 
 # Not shown on the page
 exclude:

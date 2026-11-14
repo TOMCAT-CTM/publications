@@ -5,23 +5,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ site.author }} | {{ site.title }}</title>
-  <meta name="description" content="Publications of {{ site.author }}, {{ site.affiliation }}">
+  <title>{{ site.title }}</title>
+  <meta name="description" content="{{ site.description }}">
   <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 </head>
 <body>
 <main>
   <header>
-    <h1>{% if site.profile_url %}<a href="{{ site.profile_url }}">{{ site.author }}</a>{% else %}{{ site.author }}{% endif %}</h1>
-    <p class="sub">{{ site.affiliation }}</p>
+    <h1>{{ site.title }}</h1>
+    <p class="sub">{{ site.description }}</p>
     <p class="updated">Last updated {{ site.time | date: "%-d %B %Y" }}</p>
   </header>
 
-  {% assign pubs = site.data.publications %}
-  {% assign by_year = pubs | group_by: "year" | sort: "name" | reverse %}
+  {% assign pubs = site.data.publications | sort: "Authors" %}
+  {% for e in site.hide_eids %}{% assign pubs = pubs | where_exp: "p", "p.EID != e" %}{% endfor %}
+  {% assign by_year = pubs | group_by: "Year" | sort: "name" | reverse %}
+  {% assign total_cites = 0 %}{% for p in pubs %}{% assign total_cites = total_cites | plus: p["Cited by"] %}{% endfor %}
 
   <div class="bar">
-    <h2>{{ site.title }} <span class="count">{{ pubs | size }}</span></h2>
+    <h2>Publications <span class="count"><span class="num">{{ pubs | size }}</span> entries<span id="hit-pubs" hidden> · <span class="num"></span> in search</span></span> <span class="count"><span class="num">{{ total_cites }}</span> citations<span id="hit-cites" hidden> · <span class="num"></span> in search</span></span></h2>
     <input id="q" type="search" placeholder="Search title, author, journal…" aria-label="Search publications">
   </div>
   <nav class="years" aria-label="Jump to year">{% for group in by_year %}<a href="#y{{ group.name }}">{{ group.name }}</a> {% endfor %}</nav>
@@ -32,22 +34,14 @@
     <h3 class="year" id="y{{ group.name }}">{{ group.name }}</h3>
     <ol class="pubs">
     {% for p in group.items %}
-      {% assign authors = p.authors | escape %}
-      {% for n in site.highlight_names %}
-        {% capture bold %}<strong>{{ n }}</strong>{% endcapture %}
-        {% assign authors = authors | replace: n, bold %}
-      {% endfor %}
-      {% assign t_end = p.title | slice: -1 %}
-      {% assign v_end = p.journal | slice: -1 %}
-      <li>
-        <span class="authors">{{ authors }}</span> ({{ p.year }}).
-        <span class="title">{{ p.title }}{% unless t_end == "?" or t_end == "." or t_end == "!" %}.{% endunless %}</span>
-        {% if p.journal %}<em>{{ p.journal | escape }}</em>{% if p.details %}, {{ p.details | escape }}.{% else %}{% unless v_end == "." %}.{% endunless %}{% endif %}{% endif %}
-        {% if p.doi or p.pdf or p.url %}<span class="links">
-          {% if p.doi %}<a href="https://doi.org/{{ p.doi }}">DOI</a>{% endif %}
-          {% if p.pdf %}<a href="{% if p.pdf contains '://' %}{{ p.pdf }}{% else %}{{ p.pdf | relative_url }}{% endif %}">PDF</a>{% endif %}
-          {% if p.url %}<a href="{{ p.url }}">Link</a>{% endif %}
-        </span>{% endif %}
+      {% assign t_end = p.Title | slice: -1 %}
+      {% capture details %}{% if p.Volume.size > 0 %}, {{ p.Volume }}{% endif %}{% if p.Issue.size > 0 %} ({{ p.Issue }}){% endif %}{% if p["Page start"].size > 0 %}, {{ p["Page start"] }}{% if p["Page end"].size > 0 %}–{{ p["Page end"] }}{% endif %}{% elsif p["Art. No."].size > 0 %}, {{ p["Art. No."] }}{% endif %}{% endcapture %}
+      {% assign n = p["Cited by"] | plus: 0 %}
+      <li data-cites="{{ n }}">
+        <span class="authors">{{ p.Authors | replace: ";", "," | escape }}</span> ({{ p.Year }}).<br>
+        <span class="title">{{ p.Title }}{% unless t_end == "?" or t_end == "." or t_end == "!" %}.{% endunless %}</span><br>
+        {% if p["Source title"].size > 0 %}<em>{{ p["Source title"] | escape }}</em>{{ details | escape }}.{% endif %}
+        <span class="links">{% if p.DOI.size > 0 %}<a href="https://doi.org/{{ p.DOI }}">DOI</a>{% else %}<a href="{{ p.Link }}">Scopus</a>{% endif %}<span class="cites">{{ n }} citation{% if n != 1 %}s{% endif %}</span></span>
       </li>
     {% endfor %}
     </ol>
@@ -59,19 +53,24 @@
   (function () {
     var q = document.getElementById('q'), none = document.getElementById('none');
     var blocks = document.querySelectorAll('.year-block');
+    var hitPubs = document.getElementById('hit-pubs'), hitCites = document.getElementById('hit-cites');
+    function fmt(n) { return n.toLocaleString('en-GB'); }
+    document.querySelectorAll('.num').forEach(function (e) { if (e.textContent) e.textContent = fmt(+e.textContent); });
     q.addEventListener('input', function () {
-      var term = q.value.trim().toLowerCase(), shown = 0;
+      var term = q.value.trim().toLowerCase(), shown = 0, cites = 0;
       blocks.forEach(function (b) {
         var any = false;
         b.querySelectorAll('li').forEach(function (li) {
           var hit = !term || li.textContent.toLowerCase().indexOf(term) !== -1;
-          li.hidden = !hit; if (hit) { any = true; shown++; }
+          li.hidden = !hit; if (hit) { any = true; shown++; cites += +li.dataset.cites; }
         });
         b.hidden = !any;
-        var link = document.querySelector('.years a[href="#' + b.querySelector('h3').id + '"]');
-        if (link) link.hidden = !any;
+        document.querySelector('.years a[href="#' + b.querySelector('h3').id + '"]').hidden = !any;
       });
       none.hidden = shown > 0;
+      hitPubs.hidden = hitCites.hidden = !term;
+      hitPubs.querySelector('.num').textContent = fmt(shown);
+      hitCites.querySelector('.num').textContent = fmt(cites);
     });
   })();
 </script>

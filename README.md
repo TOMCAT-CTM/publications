@@ -1,36 +1,38 @@
-# Publications page
+# TOMCAT publications page
 
-This site is published free by GitHub Pages. The web page is built
-automatically from one list file, `_data/publications.yml`, so you never
-need to edit any HTML.
+Live at https://tomcat-ctm.github.io/publications/
 
-## Add a new publication (from any web browser)
-1. On GitHub, open `_data/publications.yml` and click the pencil icon (Edit).
-2. Copy the template in the comment block at the top of the file and paste
-   it just under the line `# ---- list starts here ----`.
-3. Fill in the details, keeping the indentation and the double quotes.
-4. Click **Commit changes**. The live page updates within a minute or two.
-   The page sorts by year, puts your name in bold, and updates the
-   "Last updated" date by itself.
+The page is built automatically by GitHub Pages from one file,
+`_data/publications.csv`, which is a Scopus CSV export used exactly as
+Scopus produces it. There is no need to edit HTML or YAML to add papers.
 
-If the page doesn't update, open the **Actions** tab. A red cross means
-the list file has a formatting slip (usually a missing quote or wrong
-indentation). Click it to see the line number.
+## Update the list (about 2 minutes, all in a web browser)
+1. **Scopus:** run the paper search using your keywords (save it once in Scopus as a 'Saved List' so it can be updated next time), select all results, choose **Export → CSV**, and tick
+   **Citation information** (the default set). Download the file.
+2. **Rename** the downloaded file to `publications.csv`.
+3. **GitHub:** open the repository, click into the `_data` folder, then
+   **Add file → Upload files**, drop in `publications.csv` and click
+   **Commit changes**. It replaces the old file.
+4. Wait a minute or two and reload the site. The paper count, year links and
+   "Last updated" date change by themselves.
 
-## Correct or remove a publication
-Edit or delete its block in the same file, then commit.
+The CSV in the repository is the same file you use in Scopus for metrics and
+plots, so the GitHub website and your Scopus numbers stay synchronised.
 
-## Host your own PDF
-Upload the PDF into the `papers/` folder (Add file → Upload files), then
-set `pdf: "papers/your-file.pdf"` in that paper's entry.
+If the page doesn't update, open the **Actions** tab. A red cross means the
+build failed; click it to see why. The usual cause is a file that is not a
+Scopus CSV export, or one re-saved by Excel (if you must open it in Excel,
+save it as "CSV UTF-8").
 
-## Change your name, affiliation, profile link or the bold name variants
+## Hide a duplicate or junk record
+Scopus sometimes lists the same paper twice. Find the extra row in
+`_data/publications.csv` and copy its EID (the last column, like
+`2-s2.0-85054834664`). Add it to `hide_eids` in `_config.yml` (pencil icon →
+edit → **Commit changes**). Hidden records stay hidden in every future
+export, so you only do this once per record.
+
+## Change the title or description
 Edit `_config.yml`.
 
 ## Change the look
 Edit `assets/style.css`.
-
-## Credits
-Year navigation links adapted from the
-[TOMCAT-CTM publications site](https://github.com/TOMCAT-CTM/publications)
-by Zihao Wang.
