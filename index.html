@@ -23,7 +23,7 @@
   {% assign total_cites = 0 %}{% for p in pubs %}{% assign total_cites = total_cites | plus: p["Cited by"] %}{% endfor %}
 
   <div class="bar">
-    <h2>Publications <span class="count">{{ pubs | size }}</span> <span class="count"><span class="num">{{ total_cites }}</span> citations<span id="hit-cites" hidden> · <span class="num"></span> in search</span></span></h2>
+    <h2>Publications <span class="count"><span class="num">{{ pubs | size }}</span> entries<span id="hit-pubs" hidden> · <span class="num"></span> in search</span></span> <span class="count"><span class="num">{{ total_cites }}</span> citations<span id="hit-cites" hidden> · <span class="num"></span> in search</span></span></h2>
     <input id="q" type="search" placeholder="Search title, author, journal…" aria-label="Search publications">
   </div>
   <nav class="years" aria-label="Jump to year">{% for group in by_year %}<a href="#y{{ group.name }}">{{ group.name }}</a> {% endfor %}</nav>
@@ -53,7 +53,7 @@
   (function () {
     var q = document.getElementById('q'), none = document.getElementById('none');
     var blocks = document.querySelectorAll('.year-block');
-    var hits = document.getElementById('hit-cites'), hitNum = hits.querySelector('.num');
+    var hitPubs = document.getElementById('hit-pubs'), hitCites = document.getElementById('hit-cites');
     function fmt(n) { return n.toLocaleString('en-GB'); }
     document.querySelectorAll('.num').forEach(function (e) { if (e.textContent) e.textContent = fmt(+e.textContent); });
     q.addEventListener('input', function () {
@@ -68,7 +68,9 @@
         document.querySelector('.years a[href="#' + b.querySelector('h3').id + '"]').hidden = !any;
       });
       none.hidden = shown > 0;
-      hits.hidden = !term; hitNum.textContent = fmt(cites);
+      hitPubs.hidden = hitCites.hidden = !term;
+      hitPubs.querySelector('.num').textContent = fmt(shown);
+      hitCites.querySelector('.num').textContent = fmt(cites);
     });
   })();
 </script>
