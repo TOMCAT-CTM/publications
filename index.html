@@ -17,8 +17,6 @@
     <p class="updated">Last updated {{ site.time | date: "%-d %B %Y" }}</p>
   </header>
 
-  {% capture chart %}{{ '/assets/publications_timeseries.png' | relative_url }}?v={{ site.time | date: '%s' }}{% endcapture %}
-  <a class="chart" href="{{ chart }}" title="Click to view full size"><img src="{{ chart }}" alt="Scopus citation overview: documents and citations per year"></a>
 
   {% assign pubs = site.data.publications | sort: "Authors" %}
   {% for e in site.hide_eids %}{% assign pubs = pubs | where_exp: "p", "p.EID != e" %}{% endfor %}
@@ -27,8 +25,16 @@
 
   <div class="bar">
     <h2>Publications <span class="count"><span class="num">{{ pubs | size }}</span> entries<span id="hit-pubs" hidden> · <span class="num"></span> in search</span></span> <span class="count"><span class="num">{{ total_cites }}</span> citations<span id="hit-cites" hidden> · <span class="num"></span> in search</span></span></h2>
-    <input id="q" type="search" placeholder="Search title, author, journal…" aria-label="Search publications">
+    <div class="tools">
+      {% capture chart %}{{ '/assets/publications_timeseries.png' | relative_url }}?v={{ site.time | date: '%s' }}{% endcapture %}
+      <a class="chart" href="{{ chart }}" title="Citation overview (click to enlarge)"><img src="{{ chart }}" alt="Citation overview chart"></a>
+      <input id="q" type="search" placeholder="Search title, author, journal…" aria-label="Search publications">
+    </div>
   </div>
+  <dialog id="chart-full" aria-label="Citation overview">
+    <button class="close" aria-label="Close">&times;</button>
+    <img src="{{ chart }}" alt="Scopus citation overview: documents and citations per year">
+  </dialog>
   <nav class="years" aria-label="Jump to year">{% for group in by_year %}<a href="#y{{ group.name }}">{{ group.name }}</a> {% endfor %}</nav>
   <p id="none" hidden>No publications match your search.</p>
 
@@ -56,6 +62,9 @@
   (function () {
     var q = document.getElementById('q'), none = document.getElementById('none');
     var blocks = document.querySelectorAll('.year-block');
+    var dlg = document.getElementById('chart-full');
+    document.querySelector('.chart').addEventListener('click', function (e) { e.preventDefault(); dlg.showModal(); });
+    dlg.addEventListener('click', function () { dlg.close(); });
     var hitPubs = document.getElementById('hit-pubs'), hitCites = document.getElementById('hit-cites');
     function fmt(n) { return n.toLocaleString('en-GB'); }
     document.querySelectorAll('.num').forEach(function (e) { if (e.textContent) e.textContent = fmt(+e.textContent); });
